@@ -1,0 +1,265 @@
+<style>
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  /* Container principal */
+  .details-container {
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  /* Card da tarefa */
+  .todo-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .todo-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* Título do card */
+  .card-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  /* Conteúdo do card */
+  .card-content {
+    padding: 30px;
+  }
+
+  .field {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field-label {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .field-value {
+    font-size: 20px;
+    color: #333;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  /* Badge de status */
+  .status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .status-badge.em {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+  }
+
+  .status-badge.concluido {
+    background: #d1f7e9;
+    color: #0f5132;
+    border: 1px solid #a3e4c1;
+  }
+
+  .status-badge.pendente {
+    background: #f7d1d1;
+    color: #ac311b;
+    border: 1px solid #ff9999;
+  }
+
+  /* Ações do card */
+  .card-actions {
+    display: flex;
+    gap: 15px;
+    padding: 0 30px 30px;
+    flex-wrap: wrap;
+  }
+
+  /* Botões */
+  .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 15px 20px;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-edit {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+
+  .btn-edit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+    text-decoration: none;
+  }
+
+  .btn-delete {
+    background: linear-gradient(135deg, #e66767 0%, #a25151 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(230, 103, 103, 0.3);
+  }
+
+  .btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(230, 103, 103, 0.4);
+    color: white;
+    text-decoration: none;
+  }
+
+  /* Link voltar */
+  .back-container {
+    padding: 0 30px 30px;
+    text-align: center;
+  }
+
+  .back-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .back-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+
+  /* Animação */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    body {
+      padding: 15px;
+    }
+
+    .card-title {
+      padding: 20px;
+      font-size: 24px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-actions {
+      padding: 0 20px 20px;
+      flex-direction: column;
+    }
+
+    .btn {
+      min-width: 100%;
+    }
+
+    .back-container {
+      padding: 0 20px 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .field {
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .field-label {
+      margin-bottom: 5px;
+    }
+  }
+</style>
+
+<div class="details-container">
+  <div class="todo-card">
+    <h1 class="card-title">Detalhes da Tarefa</h1>
+
+    <div class="card-content">
+      <div class="field">
+        <label class="field-label">Descrição:</label>
+        <p class="field-value">{{ object.task }}</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Status:</label>
+        <span class="status-badge {{ object.status|lower }}"
+          >{{ object.status }}</span
+        >
+      </div>
+
+      <div class="field">
+        <label class="field-label">Data de Criação:</label>
+        <p class="field-value">{{ object.date }}</p>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <a href="{% url 'todo_update'  pk=object.pk %}" class="btn btn-edit">
+        ✏️ Editar
+      </a>
+      <a href="{% url 'todo_delete' pk=object.pk %}" class="btn btn-delete">
+        🗑️ Excluir
+      </a>
+    </div>
+
+    <div class="back-container">
+      <a href="{% url 'todos_list' %}" class="back-link"
+        >← Voltar para a lista</a
+      >
+    </div>
+  </div>
+</div>

@@ -1,0 +1,197 @@
+{% extends "base.html" %} {% block content %}
+<style>
+  /* Container principal que divide a tela */
+  .main-container {
+    display: flex;
+    height: 100vh;
+  }
+
+  /* Lado esquerdo - Formulário */
+  .formulario {
+    width: 30%;
+    background-color: #fff;
+    padding: 30px;
+    border-right: 2px solid #e0e0e0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .formulario form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .formulario input[type="text"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .formulario button {
+    padding: 12px 20px;
+    background-color: #764ba2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    font-weight: 600;
+  }
+
+  .formulario button:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    background-color: #0ca020;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    font-weight: 600;
+    margin-top: 5%;
+  }
+
+  .back-link:hover {
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.4);
+    color: white;
+    text-decoration: none;
+    background: linear-gradient(180deg, rgb(113, 234, 102) 0%, #0ca020 100%);
+  }
+
+  /* Lado direito - Container das tarefas */
+  .container {
+    width: 70%;
+    padding: 30px;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+  }
+
+  .container h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+  }
+
+  /* Container das tarefas - CORREÇÃO AQUI */
+  .tarefas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Estilo das tarefas */
+  .tarefas {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    width: 100%; /* Garante que ocupa toda a largura */
+  }
+
+  .tarefas:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .descricao {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .status {
+    font-size: 16px;
+    color: #666;
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  .status.em {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status.concluido {
+    background: #d1f7e9;
+    color: #0f5132;
+  }
+
+  .status.pendente {
+    background: #f7d1d1;
+    color: #ac311b;
+  }
+
+  a {
+    text-decoration: None;
+  }
+
+  /* Mensagem quando não há tarefas */
+  .container h3 {
+    color: #666;
+    text-align: center;
+    margin-top: 50px;
+    font-style: italic;
+  }
+
+  /* Responsividade para telas menores */
+  @media (max-width: 768px) {
+    .main-container {
+      flex-direction: column;
+      height: auto;
+    }
+
+    .formulario {
+      width: 100%;
+      border-right: none;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .container {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="main-container">
+  <div class="formulario">
+    <form method="GET" action="{% url 'todos_list' %}">
+      <input type="text" name="search" placeholder="Buscar tarefa..." />
+      <button type="submit">Buscar</button>
+    </form>
+
+    <a href="{% url 'new_todo' %}" class="back-link">Cadastrar Tarefa</a>
+  </div>
+
+  <div class="container">
+    <div class="tarefas-container">
+      <h1>Tarefas:</h1>
+      {% if todos %}{% for todo in todos %}
+      <a href="{% url 'todo_detail' todo.pk %}">
+        <div class="tarefas status {{ todo.status|lower }}">
+          <div class="descricao">{{ todo.task }}</div>
+          <div class="status {{ todo.status|lower }}">
+            Status: {{ todo.status }}
+          </div>
+        </div>
+      </a>
+
+      {% endfor %} {% else %}
+      <h3>Nenhuma tarefa encontrada</h3>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

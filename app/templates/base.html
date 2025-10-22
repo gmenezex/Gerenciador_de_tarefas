@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+      * {
+        box-sizing: border-box; /* Para garantir que padding e border sejam incluídos nas larguras */
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif; /* Fonte padrão */
+        display: flex; /* Usar flexbox para o layout da página */
+        flex-direction: column; /* Colocar elementos na vertical */
+        height: 100vh; /* Altura total da viewport */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        text-align: center;
+      }
+
+      footer {
+        background-color: #ccc;
+        color: #333;
+        padding: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header></header>
+
+    <main>{% block content %} {% endblock %}</main>
+
+    <footer>
+      <p>&copy; 2025 - Gabriel Menezes</p>
+    </footer>
+  </body>
+</html>
